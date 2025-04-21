@@ -1,0 +1,13 @@
+
+spring:
+  application:
+    name: discovry
+
+server:
+  port: 8888
+eureka:
+  client:
+    fetch-registry: false
+    register-with-eureka: false
+    service-url:
+        defaultZone: http://127.0.0.1:8888/eureka/
