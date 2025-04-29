@@ -9,7 +9,7 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ma.ensa</groupId>
-    <artifactId>discovry</artifactId>
+    <artifactId>discovery</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>discovry</name>
     <description>discovry</description>
@@ -46,7 +46,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>

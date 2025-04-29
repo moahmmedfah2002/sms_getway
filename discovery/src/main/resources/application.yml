@@ -1,7 +1,6 @@
-
 spring:
   application:
-    name: discovry
+    name: discovery
 
 server:
   port: 8888
@@ -10,4 +9,5 @@ eureka:
     fetch-registry: false
     register-with-eureka: false
     service-url:
-        defaultZone: http://127.0.0.1:8888/eureka/
+      defaultZone: http://127.0.0.1:8888/eureka/
+

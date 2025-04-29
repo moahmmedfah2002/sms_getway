@@ -2,15 +2,14 @@ package ma.ensa.discovry;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.netflix.eureka.server.EnableEurekaServer;
 
 @SpringBootApplication
 @EnableEurekaServer
-public class DiscovryApplication {
+public class DiscoveryApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DiscovryApplication.class, args);
+        SpringApplication.run(DiscoveryApplication.class, args);
     }
 
 }
