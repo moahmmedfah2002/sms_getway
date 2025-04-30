@@ -66,13 +66,14 @@ public class ReceiverController {
 
     private String getCurrentUserId() {
         // get user id from jwt token
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        System.out.println(authentication.getPrincipal().toString());
-//        if (authentication.getPrincipal() instanceof Jwt jwt) {
-//            System.out.println("JWT: " + jwt);
-//            return jwt.getClaimAsString("preferred_username");
-//        }
-//        return null;
-        return "ff5aef91-c268-43cb-bf3b-e4ff6c2f1539";
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        System.out.println(authentication.getPrincipal().toString());
+        if (authentication.getPrincipal() instanceof Jwt jwt) {
+            System.out.println("JWT: " + jwt.getClaims().toString());
+            System.out.println("JWT id: " + jwt.getSubject());
+            return jwt.getSubject();
+        }
+        return null;
+//        return "ff5aef91-c268-43cb-bf3b-e4ff6c2f1539";
     }
 }
