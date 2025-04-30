@@ -16,8 +16,6 @@ import java.util.List;
 @EnableDiscoveryClient
 @AllArgsConstructor
 public class ReceiverApplication {
-    private final ReceiverRepository receiverRepository;
-
     public static void main(String[] args) {
         SpringApplication.run(ReceiverApplication.class, args);
     }

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ReceiverDtoMapper {
-    public ReceiverDto toDto(Receiver receiver) {
+    public static ReceiverDto toDto(Receiver receiver) {
         if (receiver == null) {
             return null;
         }
@@ -16,7 +16,7 @@ public class ReceiverDtoMapper {
         return dto;
     }
 
-    public Receiver toEntity(ReceiverDto dto) {
+    public static Receiver toEntity(ReceiverDto dto) {
         if (dto == null) {
             return null;
         }

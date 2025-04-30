@@ -1,23 +1,25 @@
 package ma.ensa.receiver.web;
 
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.ensa.receiver.dto.PageResponseDto;
 import ma.ensa.receiver.dto.ReceiverDto;
 import ma.ensa.receiver.entities.Receiver;
+import ma.ensa.receiver.execptions.PhoneNumberExistsException;
+import ma.ensa.receiver.execptions.ReceiverNotFoundException;
 import ma.ensa.receiver.mappers.ReceiverDtoMapper;
 import ma.ensa.receiver.services.ReceiverService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.nio.file.AccessDeniedException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,7 +29,6 @@ import java.util.stream.Collectors;
 public class ReceiverController {
 
     private final ReceiverService receiverService;
-    private final ReceiverDtoMapper receiverDtoMapper;
 
     /**
      * Get a paginated list of receivers with optional filtering
@@ -51,7 +52,7 @@ public class ReceiverController {
         Page<Receiver> receiverPage = receiverService.getReceivers(query, userId, pageable);
 
         List<ReceiverDto> receiverDtos = receiverPage.getContent().stream()
-                .map(receiverDtoMapper::toDto)
+                .map(ReceiverDtoMapper::toDto)
                 .collect(Collectors.toList());
 
         PageResponseDto<ReceiverDto> response = new PageResponseDto<>();
@@ -64,16 +65,80 @@ public class ReceiverController {
         return ResponseEntity.ok(response).getBody();
     }
 
+
+    /**
+     * Get a single receiver by ID
+     */
+    @GetMapping("/{id}")
+    public ReceiverDto getReceiver(@PathVariable Long id) throws ReceiverNotFoundException, AccessDeniedException {
+        Receiver receiver = receiverService.getReceiverById(id);
+        verifyOwnership(receiver);
+        return ReceiverDtoMapper.toDto(receiver);
+    }
+
+    /**
+     * Create a new receiver
+     */
+    @PostMapping
+    public ResponseEntity<ReceiverDto> createReceiver(@Valid @RequestBody ReceiverDto receiverDto) throws PhoneNumberExistsException, AccessDeniedException {
+        verifyUserIdAccess(receiverDto.getUserId());
+        Receiver createdReceiver = receiverService.createReceiver(receiverDto);
+        return new ResponseEntity<>(ReceiverDtoMapper.toDto(createdReceiver), HttpStatus.CREATED);
+    }
+
+    /**
+     * Update an existing receiver
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<ReceiverDto> updateReceiver(
+            @PathVariable Long id,
+            @Valid @RequestBody ReceiverDto receiverDto) throws AccessDeniedException, PhoneNumberExistsException, ReceiverNotFoundException {
+
+        // Verify the receiver exists and user has access to it
+        Receiver existingReceiver = receiverService.getReceiverById(id);
+        verifyOwnership(existingReceiver);
+
+        // Verify user has access to set the userId
+        verifyUserIdAccess(receiverDto.getUserId());
+
+        Receiver updatedReceiver = receiverService.updateReceiver(id, receiverDto);
+        return ResponseEntity.ok(ReceiverDtoMapper.toDto(updatedReceiver));
+    }
+
+    /**
+     * Delete a receiver
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteReceiver(@PathVariable Long id) throws ReceiverNotFoundException, AccessDeniedException {
+        // Verify the receiver exists and user has access to it
+        Receiver existingReceiver = receiverService.getReceiverById(id);
+        verifyOwnership(existingReceiver);
+
+        receiverService.deleteReceiver(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    private void verifyUserIdAccess(String userId) throws AccessDeniedException {
+        if (!userId.equals(getCurrentUserId())) {
+            throw new AccessDeniedException("You do not have permission to set userId");
+        }
+    }
+
+    private void verifyOwnership(Receiver receiver) throws AccessDeniedException {
+        // Regular users can only access their own records
+        String userId = getCurrentUserId();
+        if (!receiver.getUserId().equals(userId)) {
+            throw new AccessDeniedException("You do not have permission to access this receiver");
+        }
+    }
+
     private String getCurrentUserId() {
         // get user id from jwt token
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         System.out.println(authentication.getPrincipal().toString());
         if (authentication.getPrincipal() instanceof Jwt jwt) {
-            System.out.println("JWT: " + jwt.getClaims().toString());
-            System.out.println("JWT id: " + jwt.getSubject());
             return jwt.getSubject();
         }
         return null;
-//        return "ff5aef91-c268-43cb-bf3b-e4ff6c2f1539";
     }
 }

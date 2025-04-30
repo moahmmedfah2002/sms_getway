@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
+
 public interface ReceiverRepository extends JpaRepository<Receiver, Long> {
     Page<Receiver> findByUserId(String userId, Pageable pageable);
 
@@ -15,4 +17,10 @@ public interface ReceiverRepository extends JpaRepository<Receiver, Long> {
 
     @Query("SELECT r FROM Receiver r WHERE r.name LIKE %:query% OR r.phoneNumber LIKE %:query%")
     Page<Receiver> findByQuery(@Param("query") String query, Pageable pageable);
+
+    List<Receiver> findByIdIn(List<Long> ids);
+
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    boolean existsByPhoneNumberAndIdNot(String phoneNumber, Long id);
 }
