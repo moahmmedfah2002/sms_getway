@@ -1,7 +1,7 @@
 package ma.ensa.schedule.security;
 
 import lombok.RequiredArgsConstructor;
-import ma.ensa.gethitory.jwt.JwtFilter;
+import ma.ensa.schedule.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
