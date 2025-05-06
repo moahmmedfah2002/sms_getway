@@ -5,7 +5,7 @@ spring:
     config:
       server:
         git:
-          uri: git@github.com:hakkm/server-conf-sms.git
+          uri: https://github.com/moahmmedfah2002/server-conf-pfs.git
           default-label: main
 server:
   port: 9000
