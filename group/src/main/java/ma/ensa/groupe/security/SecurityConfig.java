@@ -1,7 +1,7 @@
-package ma.ensa.receiver.security;
+package ma.ensa.groupe.security;
 
 import lombok.RequiredArgsConstructor;
-import ma.ensa.receiver.jwt.JwtFilter;
+import ma.ensa.groupe.jwt.JwtFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

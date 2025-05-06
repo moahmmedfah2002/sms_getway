@@ -4,20 +4,22 @@ import lombok.RequiredArgsConstructor;
 
 import ma.ensa.gatway.dto.AuthResponse;
 import ma.ensa.gatway.dto.RequestAuth;
+import ma.ensa.gatway.entity.User;
+import ma.ensa.gatway.repository.UserRepo;
 import ma.ensa.gatway.service.AuthenticationService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/")
 public class AuthController {
+    private final UserRepo userRepository;
+    
 
-
-        private final AuthenticationService service;
+    private final AuthenticationService service;
 
         @PostMapping("login")
         public ResponseEntity<AuthResponse> login(@RequestBody RequestAuth request){
@@ -29,4 +31,10 @@ public class AuthController {
 
             return  ResponseEntity.ok(service.register(request));
         }
+
+    @GetMapping("user")
+    public Optional<User> getUser(@RequestParam String username){
+        return userRepository.findByEmail(username);
+
+    }
 }
