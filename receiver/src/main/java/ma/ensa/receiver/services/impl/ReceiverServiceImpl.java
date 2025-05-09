@@ -19,8 +19,7 @@ import java.util.regex.Pattern;
 @Service
 @AllArgsConstructor
 public class ReceiverServiceImpl implements ReceiverService {
-    private static final Pattern PHONE_PATTERN = Pattern.compile("\\+[1-9]\\d{1,14}");
-
+private static final Pattern PHONE_PATTERN = Pattern.compile("^\\+?[0-9]{1,15}$");
     private final ReceiverRepository receiverRepository;
 
     @Override
@@ -50,8 +49,11 @@ public class ReceiverServiceImpl implements ReceiverService {
     @Override
     @Transactional
     public Receiver createReceiver(ReceiverDto receiverDto) throws PhoneNumberExistsException {
+        System.out.println("Creating receiver: " + receiverDto);
         validateReceiver(receiverDto, null);
+        System.out.println("Receiver is valid");
         Receiver receiver = ReceiverDtoMapper.toEntity(receiverDto);
+        System.out.println("Receiver entity: " + receiver);
         receiverRepository.save(receiver);
         return receiver;
 

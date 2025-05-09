@@ -2,6 +2,7 @@ package ma.ensa.receiver.web;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import ma.ensa.receiver.dto.BatchDeleteDto;
 import ma.ensa.receiver.dto.PageResponseDto;
 import ma.ensa.receiver.dto.ReceiverDto;
 import ma.ensa.receiver.entities.Receiver;
@@ -17,6 +18,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.nio.file.AccessDeniedException;
@@ -80,9 +82,13 @@ public class ReceiverController {
      * Create a new receiver
      */
     @PostMapping
+    @Transactional
     public ResponseEntity<ReceiverDto> createReceiver(@Valid @RequestBody ReceiverDto receiverDto) throws PhoneNumberExistsException, AccessDeniedException {
+        System.out.println("Creating receiver: " + receiverDto);
         verifyUserIdAccess(receiverDto.getUserId());
+        System.out.println("UserId is valid, creating receiver");
         Receiver createdReceiver = receiverService.createReceiver(receiverDto);
+        System.out.println("Receiver created: " + createdReceiver);
         return new ResponseEntity<>(ReceiverDtoMapper.toDto(createdReceiver), HttpStatus.CREATED);
     }
 
@@ -117,6 +123,16 @@ public class ReceiverController {
         receiverService.deleteReceiver(id);
         return ResponseEntity.noContent().build();
     }
+
+    /**
+     * Delete multiple receivers
+     */
+    @PostMapping("/batch-delete")
+    public ResponseEntity<Integer> deleteReceivers(@RequestBody BatchDeleteDto request) {
+        int deletedCount = receiverService.deleteReceivers(request.getIds());
+        return ResponseEntity.ok(deletedCount);
+    }
+
 
     private void verifyUserIdAccess(String userId) throws AccessDeniedException {
         if (!userId.equals(getCurrentUserId())) {
