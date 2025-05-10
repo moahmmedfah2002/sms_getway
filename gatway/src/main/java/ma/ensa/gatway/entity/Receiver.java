@@ -1,10 +1,18 @@
 package ma.ensa.gatway.entity;
 
 import jakarta.persistence.*;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@ToString
+@AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "receivers")
 public class Receiver {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,9 +26,6 @@ public class Receiver {
 
     @Column(nullable = false)
     private String userId;
-
-    @Column(nullable = false)
-    private boolean verified = false;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;
