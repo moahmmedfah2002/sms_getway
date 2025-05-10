@@ -1,5 +1,6 @@
 package ma.ensa.receiver.dto;
 
+import com.opencsv.bean.CsvBindByName;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -13,13 +14,13 @@ import java.time.LocalDateTime;
 public class ReceiverDto {
     private Long id;
 
+    @CsvBindByName(column = "Name")
     private String name;
 
+    @CsvBindByName(column = "PhoneNumber")
     private String phoneNumber;
 
     private String userId;
-
-    private boolean verified;
 
     private LocalDateTime createdAt;
 

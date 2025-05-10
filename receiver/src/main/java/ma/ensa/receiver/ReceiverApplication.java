@@ -26,7 +26,7 @@ public class ReceiverApplication {
     CommandLineRunner init(
             ReceiverRepository receiverRepository
     ) {
-        String userId = "ff5aef91-c268-43cb-bf3b-e4ff6c2f1539"; // real id of admin user in keycloak
+        String userId = "5b2f85df-b0a8-4b12-b1f5-e222d79fc825"; // real id of admin user in keycloak
         return args -> {
             // insert list of random receivers with builder
             for (long i = 0; i < 10; i++) {
