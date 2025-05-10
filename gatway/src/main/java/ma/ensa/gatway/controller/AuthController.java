@@ -26,7 +26,7 @@ public class AuthController {
             return  ResponseEntity.ok(service.login(request));
 
         }
-        @PostMapping("logup")
+            @PostMapping("logup")
         public ResponseEntity<AuthResponse>  logup(@RequestBody  RequestAuth request){
 
             return  ResponseEntity.ok(service.register(request));

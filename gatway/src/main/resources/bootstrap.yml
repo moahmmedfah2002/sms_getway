@@ -1,7 +1,7 @@
 spring:
   cloud:
     config:
-      uri: http://127.0.0.1:9000
+      uri: http://config-server:9000
       fail-fast: true
 
 
