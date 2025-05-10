@@ -28,7 +28,7 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(h -> h.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
-                .authorizeHttpRequests(ar -> ar.requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/**").permitAll())
+                .authorizeHttpRequests(ar -> ar.requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v3/**", "/api/receivers/**").permitAll()) // todo: remove ...
                 .authorizeHttpRequests(ar -> ar.anyRequest().authenticated())
                 .oauth2ResourceServer(o -> o.jwt(jwt -> jwt.jwtAuthenticationConverter(jwtAuthConverter)))
                 .build();

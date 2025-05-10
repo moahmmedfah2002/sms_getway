@@ -1,5 +1,7 @@
 package ma.ensa.receiver.services;
 
+import ma.ensa.receiver.dto.CsvImportResponseDto;
+import ma.ensa.receiver.dto.CsvReceiverDto;
 import ma.ensa.receiver.dto.ReceiverDto;
 import ma.ensa.receiver.entities.Receiver;
 import ma.ensa.receiver.execptions.PhoneNumberExistsException;
@@ -21,4 +23,6 @@ public interface ReceiverService {
     void deleteReceiver(Long id) throws ReceiverNotFoundException;
 
     int deleteReceivers(List<Long> ids);
+
+    CsvImportResponseDto importReceivers(List<CsvReceiverDto> receivers);
 }

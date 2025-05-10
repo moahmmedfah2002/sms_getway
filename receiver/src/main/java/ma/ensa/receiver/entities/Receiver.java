@@ -28,9 +28,6 @@ public class Receiver {
     private String userId;
 
     @Column(nullable = false)
-    private boolean verified = false;
-
-    @Column(nullable = false)
     private LocalDateTime createdAt;
 
     @Column(nullable = false)

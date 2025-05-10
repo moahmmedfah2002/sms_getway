@@ -34,4 +34,12 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.FORBIDDEN)
                 .body(Map.of("errorMessage", ex.getMessage()));
     }
+
+
+    @ExceptionHandler(InvalidCsvFormatException.class)
+    public ResponseEntity<Map<String, String>> handleInvalidCsvFormatException(InvalidCsvFormatException ex) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of("errorMessage", ex.getMessage()));
+    }
 }

@@ -2,14 +2,14 @@ package ma.ensa.receiver.web;
 
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
-import ma.ensa.receiver.dto.BatchDeleteDto;
-import ma.ensa.receiver.dto.PageResponseDto;
-import ma.ensa.receiver.dto.ReceiverDto;
+import ma.ensa.receiver.dto.*;
 import ma.ensa.receiver.entities.Receiver;
+import ma.ensa.receiver.execptions.InvalidCsvFormatException;
 import ma.ensa.receiver.execptions.PhoneNumberExistsException;
 import ma.ensa.receiver.execptions.ReceiverNotFoundException;
 import ma.ensa.receiver.mappers.ReceiverDtoMapper;
 import ma.ensa.receiver.services.ReceiverService;
+import ma.ensa.receiver.utils.CsvHelper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -20,10 +20,12 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.AccessDeniedException;
 import java.util.List;
-import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @AllArgsConstructor
@@ -31,6 +33,7 @@ import java.util.stream.Collectors;
 public class ReceiverController {
 
     private final ReceiverService receiverService;
+    private final CsvHelper csvHelper;
 
     /**
      * Get a paginated list of receivers with optional filtering
@@ -55,7 +58,7 @@ public class ReceiverController {
 
         List<ReceiverDto> receiverDtos = receiverPage.getContent().stream()
                 .map(ReceiverDtoMapper::toDto)
-                .collect(Collectors.toList());
+                .collect(toList());
 
         PageResponseDto<ReceiverDto> response = new PageResponseDto<>();
         response.setContent(receiverDtos);
@@ -131,6 +134,19 @@ public class ReceiverController {
     public ResponseEntity<Integer> deleteReceivers(@RequestBody BatchDeleteDto request) {
         int deletedCount = receiverService.deleteReceivers(request.getIds());
         return ResponseEntity.ok(deletedCount);
+    }
+
+
+    /**
+     * Import receivers from CSV
+     */
+    @PostMapping(value = "/import-csv", consumes = {"multipart/form-data"})
+    public ResponseEntity<CsvImportResponseDto> importCsvReceivers(@RequestPart MultipartFile file) throws InvalidCsvFormatException {
+        List<CsvReceiverDto> receivers = csvHelper.parseCsvFile(file);
+        receivers.forEach(receiverDto -> receiverDto.setUserId("5b2f85df-b0a8-4b12-b1f5-e222d79fc825")); // todo: replcase with getCurrentUserId
+        receivers.forEach(System.out::println);
+        CsvImportResponseDto preview = receiverService.importReceivers(receivers);
+        return ResponseEntity.ok(preview);
     }
 
 
