@@ -1,12 +1,11 @@
-FROM ubuntu:latest
+FROM eclipse-temurin:21-jdk-alpine
 
-RUN  apt-get update
-RUN  apt-get -y install default-jre
 
-WORKDIR /var
 
-COPY target/discovery-0.0.1-SNAPSHOT.jar demo.jar
+WORKDIR /app
+
+COPY target/discovery-0.0.1-SNAPSHOT.jar discovery.jar
 
 EXPOSE 8888
 
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+ENTRYPOINT ["java", "-jar", "discovery.jar"]

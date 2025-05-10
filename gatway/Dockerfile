@@ -1,12 +1,10 @@
-FROM ubuntu:latest
+FROM  eclipse-temurin:21-jdk-alpine
 
-RUN  apt-get update
-RUN  apt-get -y install default-jre
 
-WORKDIR /var
+WORKDIR /app
 
-COPY target/gatway-0.0.1-SNAPSHOT.jar demo.jar
+COPY target/gatway-0.0.1-SNAPSHOT.jar gateway.jar
 
 EXPOSE 7001
 
-ENTRYPOINT ["java", "-jar", "demo.jar"]
+ENTRYPOINT ["java", "-jar", "gateway.jar"]

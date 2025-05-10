@@ -1,19 +1,15 @@
 version: '3.8'
-
 services:
   mysql:
+
     image: mysql:8.0
     container_name: mysql_container
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: db          # Changed from 'keycloak' to 'db'
-      MYSQL_USER: keycloak
-      MYSQL_PASSWORD: secret
+      MYSQL_DATABASE: smsGateway
+      MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
-      - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
+      - "14000:3306"
     networks:
       - backend
     healthcheck:
@@ -22,36 +18,34 @@ services:
       timeout: 5s
       retries: 5
 
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.2.1
-    container_name: keycloak
-    restart: unless-stopped
-    command: start-dev --import-realm
-    depends_on:
-      mysql:
-        condition: service_healthy
-    environment:
-      KC_DB: mysql
-      KC_DB_URL_HOST: mysql
-      KC_DB_URL_PORT: 3306
-      KC_DB_USERNAME: root
-      KC_DB_PASSWORD: root
-      KC_LOG_LEVEL: info
-      KC_METRICS_ENABLED: true
-      KC_HEALTH_ENABLED: true
 
-      KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+
+  gateway:
+      depends_on:
+        - conf-server
+        - mysql
+
+      build:
+        context: gatway
+      ports:
+        - "7001:7001"
+      networks:
+        - backend
+  discovery:
+    build:
+      context: discovery
     ports:
-      - "8089:8080"
+      - "8888:8888"
     networks:
       - backend
-    volumes:
-      - ./realms:/opt/keycloak/data/import
-
+  conf-server:
+    build:
+      context: conf-server
+    ports:
+      - "9000:9000"
+    networks:
+      - backend
 networks:
   backend:
     driver: bridge
 
-volumes:
-  mysql_data:
