@@ -143,7 +143,7 @@ public class ReceiverController {
     @PostMapping(value = "/import-csv", consumes = {"multipart/form-data"})
     public ResponseEntity<CsvImportResponseDto> importCsvReceivers(@RequestPart MultipartFile file) throws InvalidCsvFormatException {
         List<CsvReceiverDto> receivers = csvHelper.parseCsvFile(file);
-        receivers.forEach(receiverDto -> receiverDto.setUserId("5b2f85df-b0a8-4b12-b1f5-e222d79fc825")); // todo: replcase with getCurrentUserId
+        receivers.forEach(receiverDto -> receiverDto.setUserId(getCurrentUserId()));
         receivers.forEach(System.out::println);
         CsvImportResponseDto preview = receiverService.importReceivers(receivers);
         return ResponseEntity.ok(preview);
