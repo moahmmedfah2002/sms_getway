@@ -21,6 +21,7 @@ services:
 
 
   gateway:
+      container_name: gateway
       depends_on:
         - conf-server
         - mysql
@@ -32,17 +33,31 @@ services:
       networks:
         - backend
   discovery:
+    container_name: discovery
     build:
       context: discovery
     ports:
       - "8888:8888"
     networks:
       - backend
+
   conf-server:
+    container_name: config-server
     build:
       context: conf-server
     ports:
       - "9000:9000"
+    networks:
+      - backend
+
+  receiver:
+    depends_on:
+      - mysql
+      - conf-server
+    container_name: receiver
+    build:
+      context: receiver
+
     networks:
       - backend
 networks:
