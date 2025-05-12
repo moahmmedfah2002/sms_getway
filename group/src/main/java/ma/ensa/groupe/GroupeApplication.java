@@ -6,10 +6,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
-public class GroupeApplication {
+public class GroupApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(GroupeApplication.class, args);
     }
-
 }
