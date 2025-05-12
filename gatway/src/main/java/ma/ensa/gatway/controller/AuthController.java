@@ -15,6 +15,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/")
+@CrossOrigin(origins = "http://localhost:51517")
 public class AuthController {
     private final UserRepo userRepository;
     
@@ -23,6 +24,7 @@ public class AuthController {
 
         @PostMapping("login")
         public ResponseEntity<AuthResponse> login(@RequestBody RequestAuth request){
+            System.out.println("true");
             return  ResponseEntity.ok(service.login(request));
 
         }

@@ -34,6 +34,11 @@ public class ReceiverController {
 
     private final ReceiverService receiverService;
     private final CsvHelper csvHelper;
+    @GetMapping("test")
+
+    public String test(){
+        return "valide";
+    }
 
     /**
      * Get a paginated list of receivers with optional filtering
