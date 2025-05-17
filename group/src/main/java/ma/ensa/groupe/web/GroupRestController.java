@@ -51,4 +51,11 @@ public class GroupRestController {
         return ResponseEntity.ok(groupService.renameGroup(id, updates.get("name"), updates.get("description")));
     }
 
+
+    // New endpoint to add random groups for testing
+    @PostMapping("/random")
+    public ResponseEntity<List<Group>> addRandomGroups(@RequestParam(defaultValue = "1") int count) {
+        List<Group> groups = groupService.addRandomGroups(count);
+        return ResponseEntity.ok(groups);
+    }
 }

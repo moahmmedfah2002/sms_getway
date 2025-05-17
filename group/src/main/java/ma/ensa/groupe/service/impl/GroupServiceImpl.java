@@ -9,7 +9,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
@@ -54,4 +58,21 @@ public class GroupServiceImpl implements GroupService {
         group.setDescription(description);
         return groupRepository.save(group);
     }
-}
+
+    @Override
+    public List<Group> addRandomGroups(int count) {
+        List<Group> groups = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            Group group = Group.builder()
+                    .name("Group-" + UUID.randomUUID().toString().substring(0, 8))
+                    .description("Description-" + UUID.randomUUID().toString().substring(0, 8))
+                    .userId(UUID.randomUUID().toString().substring(0, 8))
+                    .receiverIds(new ArrayList<>())
+                    .createdAt(LocalDateTime.now())
+                    .updatedAt(LocalDateTime.now())
+                    .build();
+            groups.add(groupRepository.save(group));
+        }
+        return groups;
+
+    }
