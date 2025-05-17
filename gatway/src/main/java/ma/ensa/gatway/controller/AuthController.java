@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/")
-@CrossOrigin(origins = "http://localhost:51517")
+@CrossOrigin(origins = "*")
 public class AuthController {
     private final UserRepo userRepository;
     
