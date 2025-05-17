@@ -74,5 +74,5 @@ public class GroupServiceImpl implements GroupService {
             groups.add(groupRepository.save(group));
         }
         return groups;
-
     }
+}
