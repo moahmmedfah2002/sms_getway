@@ -12,27 +12,14 @@ services:
       - backend
     healthcheck:
       test: [ "CMD", "mysqladmin", "ping", "-h", "localhost", "-uroot", "-proot" ]
-      interval: 10s
+      interval: 20s
       timeout: 5s
       retries: 5
 
-
-
-  gateway:
-    container_name: gateway
+  discovery:
     depends_on:
       mysql:
         condition: service_healthy
-      conf-server:
-        condition: service_started
-    build:
-      context: gatway
-    ports:
-      - "7001:7001"
-    networks:
-      - backend
-
-  discovery:
     container_name: discovery
     build:
       context: discovery
@@ -42,11 +29,34 @@ services:
       - backend
 
   conf-server:
+    depends_on:
+      mysql:
+        condition: service_healthy
     container_name: config-server
     build:
       context: conf-server
     ports:
       - "9000:9000"
+    networks:
+      - backend
+    healthcheck:
+      test: ["CMD", "sh", "-c", "wget -q -O - http://localhost:9000/actuator/health | grep -q '{\"status\":\"UP\"}'"]
+      interval: 10s
+      timeout: 15s
+      retries: 5
+      start_period: 20s
+
+  gateway:
+    container_name: gateway
+    depends_on:
+      mysql:
+        condition: service_healthy
+      conf-server:
+        condition: service_healthy
+    build:
+      context: gatway
+    ports:
+      - "7001:7001"
     networks:
       - backend
 
@@ -64,10 +74,24 @@ services:
       mysql:
         condition: service_healthy
       conf-server:
-        condition: service_started
+        condition: service_healthy
     container_name: receiver
     build:
       context: receiver
+    networks:
+      - backend
+
+  group:
+    depends_on:
+      mysql:
+        condition: service_healthy
+      conf-server:
+        condition: service_healthy
+      receiver:
+        condition: service_started
+    container_name: group
+    build:
+      context: group
     networks:
       - backend
 

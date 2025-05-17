@@ -1,4 +1,4 @@
-package ma.ensa.groupe.model;
+package ma.ensa.groupe.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -10,10 +10,9 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "groups")
+@Table(name="receiver_groups")
 public class Group {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,18 +20,21 @@ public class Group {
 
     @Column(nullable = false)
     private String name;
-    
+
     private String description;
-    
+
     @Column(nullable = false)
     private String userId;
-    
-    @ElementCollection
-    @CollectionTable(name = "group_receivers", 
-                    joinColumns = @JoinColumn(name = "group_id"))
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(
+            name = "group_receiver_ids",
+            joinColumns = @JoinColumn(name = "group_id", referencedColumnName = "id",
+                    foreignKey = @ForeignKey(name = "fk_group_receiver_ids"))
+    )
     @Column(name = "receiver_id")
     private List<Long> receiverIds = new ArrayList<>();
-    
+
     @Column(nullable = false)
     private LocalDateTime createdAt;
 

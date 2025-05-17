@@ -1,6 +1,6 @@
 package ma.ensa.groupe.repository;
 
-import ma.ensa.groupe.model.Group;
+import ma.ensa.groupe.entity.Group;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
