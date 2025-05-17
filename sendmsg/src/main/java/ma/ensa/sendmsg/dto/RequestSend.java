@@ -6,4 +6,5 @@ import lombok.Data;
 public class RequestSend {
     private String message;
     private String phoneNumber;
+    private String label;
 }

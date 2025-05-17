@@ -19,7 +19,7 @@ public class SmsController {
     }
     @PostMapping("/send")
     public ResponseEntity<Integer> send(@RequestBody RequestSend requestSend) throws IOException {
-        return ResponseEntity.ok(smsService.sendSms(requestSend.getPhoneNumber(),requestSend.getMessage()));
+        return ResponseEntity.ok(smsService.sendSms(requestSend.getPhoneNumber(),requestSend.getLabel(),requestSend.getMessage()));
 
 
     }
