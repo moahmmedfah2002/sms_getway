@@ -27,7 +27,8 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .sessionManagement(e->e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(e->e.anyRequest().permitAll())
+                .authorizeHttpRequests(e -> e.requestMatchers("/auth/**", "/actuator/health").permitAll().
+                        anyRequest().permitAll())
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
