@@ -21,7 +21,6 @@ public class SmsService {
                 .post(body)
                 .addHeader("accept", "application/json")
                 .addHeader("content-type", "application/json")
-                .addHeader("api-key", "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")
                 .build();
 
         return client.newCall(request).execute().code();
