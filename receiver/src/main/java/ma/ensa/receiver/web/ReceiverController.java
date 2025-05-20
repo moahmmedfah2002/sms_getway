@@ -30,12 +30,13 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/receivers")
+@CrossOrigin(origins = "*")
 public class ReceiverController {
 
     private final ReceiverService receiverService;
     private final CsvHelper csvHelper;
-    @GetMapping("test")
 
+    @GetMapping("/test")
     public String test(){
         return "valide";
     }

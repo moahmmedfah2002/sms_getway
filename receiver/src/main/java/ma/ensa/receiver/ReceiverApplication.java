@@ -32,7 +32,7 @@ public class ReceiverApplication {
             for (long i = 0; i < 10; i++) {
                 Receiver receiver = Receiver.builder()
                         .name("Receiver " + i)
-                        .phoneNumber("060000000" + i)
+                        .phoneNumber("4200210434" + i)
                         .userId(userId)
                         .build();
                 receiverRepository.save(receiver);

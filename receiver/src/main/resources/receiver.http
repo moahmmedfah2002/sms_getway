@@ -1,0 +1,32 @@
+
+POST http://localhost:7001/auth/login
+Content-Type: application/json
+
+{
+  "username":"moha",
+  "password":"123"
+}
+
+<> 2025-05-19T132331.200.json
+<> 2025-05-17T173855.200.json
+<> 2025-05-17T172210.200.json
+
+// getting receivers
+### get receivers
+GET http://localhost:7001/receivers/api/receivers
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDc3NDMyNzUsImV4cCI6MTc0Nzc0NDcxNSwic3ViIjoibW9oYSJ9.mfntrLTwtGK2oYvaj-Cb64yCdsadTs5nrlVISyYYVJt656QIwawi2LfmLygrLQhlJC7UxocHwv1Qsd3S90fj7w
+
+
+
+### logup
+
+POST http://localhost:7001/auth/logup
+Content-Type: application/json
+
+{
+  "username":"moha",
+  "password":"123",
+  "firstName":"mohammed",
+  "lastName":"fahlaoui",
+  "phone":"+212680622793"
+}

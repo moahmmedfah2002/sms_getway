@@ -8,6 +8,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
       - "14000:3306"
+#      - "10000:3306"
     networks:
       - backend
     healthcheck:
@@ -38,6 +39,7 @@ services:
       context: discovery
     ports:
       - "8888:8888"
+
     networks:
       - backend
 
@@ -50,14 +52,14 @@ services:
     networks:
       - backend
 
-  sms:
-    container_name: sendmsg
-    build:
-      context: sendmsg
-    ports:
-      - "6005:6005"
-    networks:
-      - backend
+#  sms:
+#    container_name: sendmsg
+#    build:
+#      context: sendmsg
+#    ports:
+#      - "6005:6005"
+#    networks:
+#      - backend
 
   receiver:
     depends_on:
