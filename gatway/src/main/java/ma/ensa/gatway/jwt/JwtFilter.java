@@ -56,12 +56,14 @@ public class JwtFilter extends OncePerRequestFilter {
                     System.out.println("authenticated");
 
                 }
+                System.out.println("pass to filter");
                 filterChain.doFilter(request,response);
 
 
 
             }
         }catch (Exception e){
+            System.out.println("Exception in jwt filter");
             filterChain.doFilter(request, response);
         }
 

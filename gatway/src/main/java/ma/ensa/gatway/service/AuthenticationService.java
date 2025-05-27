@@ -45,12 +45,13 @@ public class AuthenticationService {
 
 
             var user = User.builder()
-                    .email(request.getUsername())
+                    .email(request.getEmail())
                     .password(passwordEncoder.encode(request.getPassword()))
                     .role(request.getRole())
                     .phone(request.getPhone())
                     .firstName(request.getFirstName())
                     .lastName(request.getLastName())
+                    .username(request.getUsername())
 
 
                     .build();

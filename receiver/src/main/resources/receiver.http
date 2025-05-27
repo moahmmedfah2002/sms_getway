@@ -14,7 +14,8 @@ Content-Type: application/json
 // getting receivers
 ### get receivers
 GET http://localhost:7001/receivers/api/receivers
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDc3NDMyNzUsImV4cCI6MTc0Nzc0NDcxNSwic3ViIjoibW9oYSJ9.mfntrLTwtGK2oYvaj-Cb64yCdsadTs5nrlVISyYYVJt656QIwawi2LfmLygrLQhlJC7UxocHwv1Qsd3S90fj7w
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDc3NDg5MjgsImV4cCI6MTc0Nzc1MDM2OCwic3ViIjoibW9oYSJ9.Isvp06WYHbiZGSaY2RIDzfS-H2nsyUxIMz8ghpf95SwiX-P86DP_NJOK4fWiBvGyERo57ZdIzY6J_nGSgM-QSg
+
 
 
 

@@ -1,5 +1,7 @@
 package ma.ensa.receiver.web;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import ma.ensa.receiver.dto.*;
@@ -23,6 +25,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.AccessDeniedException;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -30,15 +34,17 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/receivers")
-@CrossOrigin(origins = "*")
+
 public class ReceiverController {
 
     private final ReceiverService receiverService;
     private final CsvHelper csvHelper;
 
     @GetMapping("/test")
-    public String test(){
-        return "valide";
+    public ResponseEntity<String> test(HttpServletRequest request){
+
+        Collections.list(request.getHeaderNames()).forEach(System.out::println);
+        return ResponseEntity.ok("test");
     }
 
     /**
@@ -72,6 +78,8 @@ public class ReceiverController {
         response.setTotalPages(receiverPage.getTotalPages());
         response.setSize(receiverPage.getSize());
         response.setNumber(receiverPage.getNumber());
+        System.out.println("Response Reached here");
+        System.out.println(response);
 
         return ResponseEntity.ok(response).getBody();
     }

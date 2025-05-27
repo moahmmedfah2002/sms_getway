@@ -11,6 +11,7 @@ import ma.ensa.gatway.entity.*;
 @NoArgsConstructor
 @Builder
 public class RequestAuth {
+    private String email;
     private String username;
     private String password;
     private Role Role= ma.ensa.gatway.entity.Role.USER;
