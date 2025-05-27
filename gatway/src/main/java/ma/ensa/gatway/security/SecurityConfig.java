@@ -30,7 +30,7 @@ public class SecurityConfig {
 @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
-
+                .cors(cors-> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(e->e.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(e->e.requestMatchers("/auth/**").permitAll()
@@ -45,7 +45,7 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource(){
     CorsConfiguration configuration = new CorsConfiguration();
-    configuration.setAllowedOrigins(List.of("*"));
+    configuration.setAllowedOrigins(List.of("http://localhost:4200"));
     configuration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
     configuration.setAllowCredentials(true);
     configuration.setAllowedHeaders(List.of("*"));
