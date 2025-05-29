@@ -20,7 +20,7 @@ public class ReceiverDto {
     @CsvBindByName(column = "PhoneNumber")
     private String phoneNumber;
 
-    private String userId;
+    private Long userId;
 
     private LocalDateTime createdAt;
 

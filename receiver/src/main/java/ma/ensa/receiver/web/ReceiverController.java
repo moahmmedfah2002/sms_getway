@@ -19,6 +19,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
@@ -53,7 +54,7 @@ public class ReceiverController {
     @GetMapping
     public PageResponseDto<ReceiverDto> getReceivers(
             @RequestParam(required = false) String query,
-            @RequestParam(required = false) String userId,
+            @RequestParam(required = false) Long userId,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
@@ -154,17 +155,21 @@ public class ReceiverController {
     /**
      * Import receivers from CSV
      */
-    @PostMapping(value = "/import-csv", consumes = {"multipart/form-data"})
-    public ResponseEntity<CsvImportResponseDto> importCsvReceivers(@RequestPart MultipartFile file) throws InvalidCsvFormatException {
-        List<CsvReceiverDto> receivers = csvHelper.parseCsvFile(file);
-        receivers.forEach(receiverDto -> receiverDto.setUserId(getCurrentUserId()));
-        receivers.forEach(System.out::println);
-        CsvImportResponseDto preview = receiverService.importReceivers(receivers);
-        return ResponseEntity.ok(preview);
-    }
+//    @PostMapping(value = "/import-csv", consumes = {"multipart/form-data"})
+//    public ResponseEntity<CsvImportResponseDto> importCsvReceivers(@RequestPart MultipartFile file) throws InvalidCsvFormatException {
+//        List<CsvReceiverDto> receivers = csvHelper.parseCsvFile(file);
+//        receivers.forEach(receiverDto -> receiverDto.setUserId(getCurrentUserId()));
+//        receivers.forEach(System.out::println);
+//        CsvImportResponseDto preview = receiverService.importReceivers(receivers);
+//        return ResponseEntity.ok(preview);
+//    }
 
 
-    private void verifyUserIdAccess(String userId) throws AccessDeniedException {
+    private void verifyUserIdAccess(Long userId) throws AccessDeniedException {
+        System.out.println("from validation method");
+        System.out.println("userId: " + userId);
+        System.out.println("line 170");
+        System.out.println("currentUserId: " + this.getCurrentUserId());
         if (!userId.equals(getCurrentUserId())) {
             throw new AccessDeniedException("You do not have permission to set userId");
         }
@@ -172,19 +177,28 @@ public class ReceiverController {
 
     private void verifyOwnership(Receiver receiver) throws AccessDeniedException {
         // Regular users can only access their own records
-        String userId = getCurrentUserId();
-        if (!receiver.getUserId().equals(userId)) {
+        long userId = getCurrentUserId();
+        System.out.println("userId from receiver controller verifying is: " + userId);
+        if (!(receiver.getUserId()== userId)) {
             throw new AccessDeniedException("You do not have permission to access this receiver");
         }
     }
 
-    private String getCurrentUserId() {
+    private Long getCurrentUserId() {
         // get user id from jwt token
+        System.out.println("auth in line 186: ");
+
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println(authentication.getPrincipal().toString());
-        if (authentication.getPrincipal() instanceof Jwt jwt) {
-            return jwt.getSubject();
+        System.out.println("auth in line 188: " + authentication.getPrincipal().toString());
+        if (authentication.getPrincipal() instanceof UserDetails) {
+            System.out.println("inside if in line 193");
+//            System.out.println(jwt.getSubject());
+//            return jwt.getSubject();
+            return (long)((User) authentication.getPrincipal()).getId();
         }
+
         return null;
+
+
     }
 }

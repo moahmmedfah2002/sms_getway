@@ -30,9 +30,9 @@ public class AuthenticationService {
 
             System.out.println("the request is: " + request.getUsername() + " " + request.getPassword());
 
-//            authenticationManager.authenticate(
-//                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-//            );
+            authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+            );
         System.out.println("auth passed");
 
             var user= userRepo.findByUsername(request.getUsername())
