@@ -38,7 +38,9 @@ public class AuthController {
 
     @GetMapping("user")
     public Optional<User> getUser(@RequestParam String username){
-        return userRepository.findByEmail(username);
+        Optional<User> user = userRepository.findByUsername(username);
+        System.out.println(user);
+        return user;
 
     }
 }

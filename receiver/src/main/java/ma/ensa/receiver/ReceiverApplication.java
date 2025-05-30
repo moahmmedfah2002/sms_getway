@@ -22,23 +22,23 @@ public class ReceiverApplication {
         SpringApplication.run(ReceiverApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner init(
-            ReceiverRepository receiverRepository
-    ) {
+//    @Bean
+//    CommandLineRunner init(
+//            ReceiverRepository receiverRepository
+//    ) {
 //        String userId = "5b2f85df-b0a8-4b12-b1f5-e222d79fc825"; // real id of admin user in keycloak
-        long userId = 3;
-        return args -> {
-            // insert list of random receivers with builder
-            for (long i = 0; i < 10; i++) {
-                Receiver receiver = Receiver.builder()
-                        .name("Receiver " + i)
-                        .phoneNumber("4200210434" + i)
-                        .userId(userId)
-                        .build();
-                receiverRepository.save(receiver);
-            }
-        };
-    }
+//        long userId = 3;
+//        return args -> {
+//            // insert list of random receivers with builder
+//            for (long i = 0; i < 10; i++) {
+//                Receiver receiver = Receiver.builder()
+//                        .name("Receiver " + i)
+//                        .phoneNumber("4200210434" + i)
+//                        .userId(userId)
+//                        .build();
+//                receiverRepository.save(receiver);
+//            }
+//        };
+//    }
 
 }

@@ -27,7 +27,7 @@ public class AppConfig {
             @Override
             public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
                 User user=userFeign.getUser(username).orElseThrow(()->new UsernameNotFoundException("user not found"));
-                System.out.println(user.getUsername());
+                System.out.println("user from app config in receiver is: " + user.getUsername());
                 return user;
             }
         } ;
