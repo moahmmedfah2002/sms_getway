@@ -9,6 +9,7 @@ import ma.ensa.gatway.entity.User;
 import ma.ensa.gatway.jwt.JwtService;
 import ma.ensa.gatway.repository.UserRepo;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,9 +31,15 @@ public class AuthenticationService {
 
             System.out.println("the request is: " + request.getUsername() + " " + request.getPassword());
 
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
-            );
+            try{
+
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
+                );
+            }catch(BadCredentialsException e){
+            System.out.println("authentication failed");
+                System.out.println(e.getMessage());
+        }
         System.out.println("auth passed");
 
             var user= userRepo.findByUsername(request.getUsername())

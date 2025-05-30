@@ -11,8 +11,8 @@ import java.util.Optional;
 @Service
 public class UserService {
     private final UserRepo userRepository;
-    public Optional<User> findUserByEmail(String email) {
-        return userRepository.findByEmail(email);
+    public Optional<User> findUserByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
 }

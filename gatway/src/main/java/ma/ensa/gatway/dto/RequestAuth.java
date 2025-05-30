@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ma.ensa.gatway.entity.*;
+import ma.ensa.gatway.entity.Role;
 
 @Data
 @AllArgsConstructor
@@ -14,7 +14,7 @@ public class RequestAuth {
     private String email;
     private String username;
     private String password;
-    private Role Role= ma.ensa.gatway.entity.Role.USER;
+    private Role role= Role.USER;
     private String firstName;
     private String lastName;
     private String phone;

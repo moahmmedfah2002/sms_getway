@@ -52,14 +52,14 @@ services:
     networks:
       - backend
 
-#  sms:
-#    container_name: sendmsg
-#    build:
-#      context: sendmsg
-#    ports:
-#      - "6005:6005"
-#    networks:
-#      - backend
+  sms:
+    container_name: sendmsg
+    build:
+      context: sendmsg
+    ports:
+      - "6005:6005"
+    networks:
+      - backend
 
   receiver:
     depends_on:
