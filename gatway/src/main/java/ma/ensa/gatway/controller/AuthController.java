@@ -15,7 +15,7 @@ import java.util.Optional;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth/")
-@CrossOrigin(origins = "http://localhost:51517")
+//@CrossOrigin(origins = "*")
 public class AuthController {
     private final UserRepo userRepository;
     
@@ -25,6 +25,8 @@ public class AuthController {
         @PostMapping("login")
         public ResponseEntity<AuthResponse> login(@RequestBody RequestAuth request){
             System.out.println("true");
+//            AuthResponse authResponse = service.login(request);
+
             return  ResponseEntity.ok(service.login(request));
 
         }
@@ -36,7 +38,9 @@ public class AuthController {
 
     @GetMapping("user")
     public Optional<User> getUser(@RequestParam String username){
-        return userRepository.findByEmail(username);
+        Optional<User> user = userRepository.findByUsername(username);
+        System.out.println(user);
+        return user;
 
     }
 }

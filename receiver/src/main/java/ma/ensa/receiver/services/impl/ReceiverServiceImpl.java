@@ -29,7 +29,7 @@ public class ReceiverServiceImpl implements ReceiverService {
     private final ReceiverRepository receiverRepository;
 
     @Override
-    public Page<Receiver> getReceivers(String query, String userId, Pageable pageable) {
+    public Page<Receiver> getReceivers(String query, Long userId, Pageable pageable) {
         if (query != null && !query.trim().isEmpty()) {
             if (userId != null) {
                 return receiverRepository.findByUserIdAndQuery(userId, query, pageable);

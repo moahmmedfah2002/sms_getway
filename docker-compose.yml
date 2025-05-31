@@ -8,6 +8,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
       - "14000:3306"
+#      - "10000:3306"
     networks:
       - backend
     healthcheck:
@@ -25,6 +26,7 @@ services:
       context: discovery
     ports:
       - "8888:8888"
+
     networks:
       - backend
     healthcheck:
@@ -124,6 +126,9 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
+
+
 
 networks:
   backend:

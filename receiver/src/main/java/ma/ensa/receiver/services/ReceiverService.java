@@ -12,7 +12,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 public interface ReceiverService {
-    Page<Receiver> getReceivers(String query, String userId, Pageable pageable);
+    Page<Receiver> getReceivers(String query, Long userId, Pageable pageable);
 
     Receiver getReceiverById(Long id) throws ReceiverNotFoundException;
 

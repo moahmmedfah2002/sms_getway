@@ -25,7 +25,7 @@ public class Receiver {
     private String phoneNumber;
 
     @Column(nullable = false)
-    private String userId;
+    private long userId;
 
     @Column(nullable = false)
     private LocalDateTime createdAt;

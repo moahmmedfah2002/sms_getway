@@ -10,10 +10,10 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface ReceiverRepository extends JpaRepository<Receiver, Long> {
-    Page<Receiver> findByUserId(String userId, Pageable pageable);
+    Page<Receiver> findByUserId(Long userId, Pageable pageable);
 
-    @Query("SELECT r FROM Receiver r WHERE r.userId LIKE %:userId% AND (r.name LIKE %:query% OR r.phoneNumber LIKE %:query%)")
-    Page<Receiver> findByUserIdAndQuery(@Param("userId") String userId, @Param("query") String query, Pageable pageable);
+    @Query("SELECT r FROM Receiver r WHERE r.userId=:userId AND (r.name LIKE %:query% OR r.phoneNumber LIKE %:query%)")
+    Page<Receiver> findByUserIdAndQuery(@Param("userId") Long userId, @Param("query") String query, Pageable pageable);
 
     @Query("SELECT r FROM Receiver r WHERE r.name LIKE %:query% OR r.phoneNumber LIKE %:query%")
     Page<Receiver> findByQuery(@Param("query") String query, Pageable pageable);
