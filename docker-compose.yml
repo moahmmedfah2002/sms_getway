@@ -73,6 +73,20 @@ services:
     networks:
       - backend
 
+
+
+  group:
+    depends_on:
+      mysql:
+        condition: service_healthy
+      conf-server:
+        condition: service_started
+    container_name: group
+    build:
+      context: group
+    networks:
+      - backend
+
 networks:
   backend:
     driver: bridge
