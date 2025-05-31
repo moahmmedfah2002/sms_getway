@@ -19,13 +19,14 @@ public class SmsController {
     }
     @PostMapping("/send")
     //@RequestParam String phoneNumber,@RequestParam String message
-    public ResponseEntity<Integer> send(
-
-    ) throws IOException {
+    public ResponseEntity<Integer> send(@RequestBody Map<String, String> request) throws IOException {
 //        String phoneNumber = request.getOrDefault("phoneNumber", "");
 //        return ResponseEntity.ok(smsService.sendSms(phoneNumber,message));
 //        System.out.println(phoneNumber);
-        System.out.println("hello sms");
+        String phoneNumber = (String) request.get("phoneNumber");
+        String message = (String) request.get("message");
+        String label = (String) request.get("label");
+        System.out.println(phoneNumber);
         return ResponseEntity.ok(0);
 
 
