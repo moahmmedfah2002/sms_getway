@@ -73,11 +73,6 @@ services:
       retries: 3
 
   sms:
-    depends_on:
-      mysql:
-        condition: service_healthy
-      conf-server:
-        condition: service_started
     container_name: sendmsg
     build:
       context: sendmsg
@@ -134,19 +129,6 @@ services:
 
 
 
-  group:
-    depends_on:
-      mysql:
-        condition: service_healthy
-      conf-server:
-        condition: service_started
-    container_name: group
-    build:
-      context: group
-    ports:
-      - "6001:6001"
-    networks:
-      - backend
 
 networks:
   backend:

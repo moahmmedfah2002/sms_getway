@@ -58,6 +58,7 @@ public class ReceiverController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size) {
 
+        System.out.println("hello from merge branch");
         System.out.println("Query: " + query + ", UserId: " + userId + ", Page: " + page + ", Size: " + size);
 
         // If trying to access other's data, restrict to own data
