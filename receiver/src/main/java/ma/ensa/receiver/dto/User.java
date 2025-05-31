@@ -19,8 +19,9 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class User implements UserDetails {
-    private int id;
+    private long id;
     private String email;
+    private String username;
     private String password;
     private String firstName;
     private String lastName;
@@ -39,7 +40,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     @Override

@@ -37,17 +37,27 @@ public class JwtFilter extends OncePerRequestFilter {
 
             String header = request.getHeader("Authorization");
             if (header == null || header.isEmpty()) {
-                filterChain.doFilter(request, response);
-            }
-            if (header == null || !header.startsWith("Bearer ")) {
-                filterChain.doFilter(request, response);
-            }
-            assert header != null;
-            String jwt = header.substring(7);
-            final String userEmail = jwtService.extractUsername(jwt);
-            if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
-                UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+                System.out.println("register or login should pass here");
+                filterChain.doFilter(request, response);
+                return;
+            }
+            if (!header.startsWith("Bearer ")) {
+                System.out.println("register or login should pass here too");
+                filterChain.doFilter(request, response);
+                return;
+            }
+            System.out.println("achieved line 45 in filter of gateway");
+//            assert header != null;
+            System.out.println("header: " + header);
+            String jwt = header.substring(7);
+            final String username = jwtService.extractUsername(jwt);
+            System.out.println("username: " + username);
+            if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+
+                System.out.println("starting loading user");
+                UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+                System.out.println("userDetails: " + userDetails);
 
                 if (jwtService.validateToken(jwt, userDetails)) {
                     UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
@@ -56,12 +66,15 @@ public class JwtFilter extends OncePerRequestFilter {
                     System.out.println("authenticated");
 
                 }
+                System.out.println("pass to filter");
                 filterChain.doFilter(request,response);
 
 
 
             }
         }catch (Exception e){
+            System.out.println("Exception in jwt filter");
+            System.out.println(e.getMessage());
             filterChain.doFilter(request, response);
         }
 

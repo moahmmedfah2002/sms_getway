@@ -29,6 +29,8 @@ public class JwtService {
         final String username = getClaim(token, Claims::getSubject);
 //        final String role = getClaim(token, claims -> claims.get("role", String.class));
         final Date expiration = getClaim(token, Claims::getExpiration);
+        System.out.println("username: "+ username);
+        System.out.println("fetched username " + userDetails.getUsername());
         return username.equals(userDetails.getUsername())&& !expiration.before(new Date());
     }
 

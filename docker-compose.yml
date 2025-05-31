@@ -8,6 +8,7 @@ services:
       MYSQL_ALLOW_EMPTY_PASSWORD: true
     ports:
       - "14000:3306"
+#      - "10000:3306"
     networks:
       - backend
     healthcheck:
@@ -25,6 +26,7 @@ services:
       context: discovery
     ports:
       - "8888:8888"
+
     networks:
       - backend
     healthcheck:
@@ -71,6 +73,11 @@ services:
       retries: 3
 
   sms:
+    depends_on:
+      mysql:
+        condition: service_healthy
+      conf-server:
+        condition: service_started
     container_name: sendmsg
     build:
       context: sendmsg
@@ -124,6 +131,22 @@ services:
       interval: 30s
       timeout: 10s
       retries: 5
+
+
+
+  group:
+    depends_on:
+      mysql:
+        condition: service_healthy
+      conf-server:
+        condition: service_started
+    container_name: group
+    build:
+      context: group
+    ports:
+      - "6001:6001"
+    networks:
+      - backend
 
 networks:
   backend:
