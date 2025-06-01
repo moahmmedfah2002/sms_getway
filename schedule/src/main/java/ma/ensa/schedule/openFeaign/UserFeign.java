@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Optional;
 
-@FeignClient(value = "user", url = "127.0.0.1:7001/auth/")
+@FeignClient(value = "user", url = "gateway:7001/auth/")
 @Service
 public interface UserFeign {
 

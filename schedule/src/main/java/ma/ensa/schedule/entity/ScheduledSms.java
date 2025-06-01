@@ -17,6 +17,9 @@ public class ScheduledSms {
     private String recipientPhoneNumber;
 
     @Column(nullable = false)
+    private String label;
+
+    @Column(nullable = false)
     private String message;
 
     @Column(nullable = false)
