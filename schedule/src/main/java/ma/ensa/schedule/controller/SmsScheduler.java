@@ -8,12 +8,11 @@ import ma.ensa.schedule.openFeaign.SmsFeign;
 import ma.ensa.schedule.service.SmsService;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -68,6 +67,24 @@ public class SmsScheduler {
 
 
 
+        return ResponseEntity.ok(1);
+
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ScheduledSms>> getAll() {
+
+        List<ScheduledSms> scheduledSms = scheduledSmsRepository.findAll();
+        return ResponseEntity.ok(scheduledSms);
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Integer> delete(@PathVariable long id){
+
+        System.out.println("deleting "+id);
+
+        scheduledSmsRepository.deleteById(id);
         return ResponseEntity.ok(1);
 
     }
