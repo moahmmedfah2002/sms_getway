@@ -7,7 +7,8 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public interface ScheduledSmsRepository extends JpaRepository<ScheduledSms, Long> {
-    List<ScheduledSms> findByStatusAndScheduledTime(String status, LocalDateTime scheduledTime);
+
+    List<ScheduledSms> findByStatusAndScheduledTimeBefore(String status, LocalDateTime time);
     List<ScheduledSms> findByUserIdAndStatus(Long userId, String status);
 
 

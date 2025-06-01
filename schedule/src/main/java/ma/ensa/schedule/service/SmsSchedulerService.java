@@ -22,14 +22,17 @@ public class SmsSchedulerService {
         this.smsService = smsService;
     }
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 5000)
     public void processScheduledSms() {
+        System.out.println("processing");
         LocalDateTime now = LocalDateTime.now();
-        List<ScheduledSms> pendingSms = scheduledSmsRepository.findByStatusAndScheduledTime("PENDING", now);
+        List<ScheduledSms> pendingSms = scheduledSmsRepository.findByStatusAndScheduledTimeBefore("PENDING", now);
+        System.out.println(pendingSms.size());
 
         for (ScheduledSms sms : pendingSms) {
             try {
 
+                System.out.println("schedule is running");
                 smsService.sendSms(sms.getRecipientPhoneNumber(), sms.getMessage(), "label");
 
 
@@ -38,6 +41,7 @@ public class SmsSchedulerService {
                 sms.setStatus("SENT");
                 scheduledSmsRepository.save(sms);
             } catch (Exception e) {
+                System.out.println(e.getMessage());
 
                 sms.setStatus("FAILED");
                 scheduledSmsRepository.save(sms);
