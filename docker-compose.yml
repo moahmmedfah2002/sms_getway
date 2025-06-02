@@ -127,6 +127,25 @@ services:
       timeout: 10s
       retries: 5
 
+  schedule:
+    depends_on:
+      mysql:
+        condition: service_healthy
+      conf-server:
+        condition: service_healthy
+      gateway:
+        condition: service_started
+    container_name: schedule
+    build:
+      context: schedule
+    networks:
+      - backend
+    healthcheck:
+      test: [ "CMD", "sh", "-c", "wget -qO- http://localhost:6004/actuator/health | grep -q '{\"status\":\"UP\"}'"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
 
 
 

@@ -25,6 +25,7 @@ public class User implements UserDetails {
     private String firstName;
     private String lastName;
     private String phone;
+    private String username;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -39,7 +40,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.username;
     }
 
     @Override

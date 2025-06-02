@@ -1,14 +1,14 @@
-package ma.ensa.sendmsg.service;
+package ma.ensa.schedule.service;
 
-
-import lombok.RequiredArgsConstructor;
-import okhttp3.*;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 
 @Service
-@RequiredArgsConstructor
 public class SmsService {
 
 
@@ -26,5 +26,3 @@ public class SmsService {
         return client.newCall(request).execute().code();
     }
 }
-
-

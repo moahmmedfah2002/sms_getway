@@ -33,10 +33,10 @@ public class JwtFilter extends OncePerRequestFilter {
             return;
         }
         String jwt = header.substring(7);
-        final String userEmail=jwtService.extractUsername(jwt);
-        if (userEmail!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
-            System.out.println(userEmail);
-            UserDetails userDetails = userDetailsService.loadUserByUsername(userEmail);
+        final String username=jwtService.extractUsername(jwt);
+        if (username!=null && SecurityContextHolder.getContext().getAuthentication()==null) {
+            System.out.println(username);
+            UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
             if(jwtService.validateToken(jwt,userDetails)){
                 UsernamePasswordAuthenticationToken authenticationToken=new UsernamePasswordAuthenticationToken(userDetails,null,userDetails.getAuthorities());
